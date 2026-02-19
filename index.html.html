@@ -769,7 +769,6 @@ function initListeners() {
     records = snap.docs.map(d => ({ ...d.data(), _docId: d.id }));
     renderDatabase();
     renderPrintSelect();
-    refreshEmpDropdown();
   });
   // Employees
   onSnapshot(query(collection(db, EMPLOYEES_COL), orderBy('name', 'asc')), snap => {
@@ -806,6 +805,7 @@ function showPage(name, btn) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   if (btn) btn.classList.add('active');
+  if (name==='entry')     refreshEmpDropdown();
   if (name==='database')  renderDatabase();
   if (name==='print')     renderPrintSelect();
   if (name==='employees') renderEmployeeDirectory();
@@ -815,6 +815,7 @@ function goTo(name) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach((t,i)=>{t.classList.remove('active');if(tabs[i]===name)t.classList.add('active');});
   document.getElementById('page-'+name).classList.add('active');
+  if(name==='entry')     refreshEmpDropdown();
   if(name==='print')     renderPrintSelect();
   if(name==='employees') renderEmployeeDirectory();
 }
